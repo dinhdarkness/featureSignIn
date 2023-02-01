@@ -181,7 +181,7 @@ window.__require = function e(t, n, r) {
             appId: "577254864321632",
             cookie: true,
             xfbml: true,
-            version: "v15.0"
+            version: "v3.3"
           });
         };
       };
