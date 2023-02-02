@@ -171,21 +171,22 @@ window.__require = function e(t, n, r) {
         var _this = null !== _super && _super.apply(this, arguments) || this;
         _this.nodeLayoutLogin = null;
         _this.nodeLayoutSignIn = null;
+        _this.FB = null;
         return _this;
       }
       LoginScreen.prototype.start = function() {
         this.nodeLayoutLogin.active = true;
         this.nodeLayoutSignIn.active = false;
-        (function(d, s, id) {
+        this.FB = function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];
           if (d.getElementById(id)) return;
           js = d.createElement(s);
           js.id = id;
           js.src = "https://connect.facebook.net/en_US/sdk.js";
           fjs.parentNode.insertBefore(js, fjs);
-        })(document, "script", "facebook-jssdk");
-        window.fbAsyncInit = function() {
-          FB.init({
+        }(document, "script", "facebook-jssdk");
+        this.FB.fbAsyncInit = function() {
+          this.FB.init({
             appId: "577254864321632",
             cookie: true,
             xfbml: true,
@@ -199,17 +200,17 @@ window.__require = function e(t, n, r) {
       };
       LoginScreen.prototype.onButtonSignWithFBClick = function() {
         var _this = this;
-        FB.getLoginStatus(function(response) {
+        this.FB.getLoginStatus(function(response) {
           _this.statusChangeCallback(response);
         });
       };
       LoginScreen.prototype.statusChangeCallback = function(response) {
         console.log("statusChangeCallback");
         console.log(response);
-        "connected" === response.status ? this.testAPI() : FB.login(function(response) {
+        "connected" === response.status ? this.testAPI() : this.FB.login(function(response) {
           if (response.authResponse) {
             console.log("Welcome!  Fetching your information.... ");
-            FB.api("/me", function(response) {
+            this.FB.api("/me", function(response) {
               console.log("Good to see you, " + response.name + ".");
             });
           } else console.log("User cancelled login or did not fully authorize.");
@@ -217,7 +218,7 @@ window.__require = function e(t, n, r) {
       };
       LoginScreen.prototype.testAPI = function() {
         console.log("Welcome!  Fetching your information.... ");
-        FB.api("/me", function(response) {
+        this.FB.api("/me", function(response) {
           console.log("Successful login for: " + response.name);
           document.getElementById("status").innerHTML = "Thanks for logging in, " + response.name + "!";
         });
