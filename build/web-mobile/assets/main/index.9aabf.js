@@ -165,21 +165,12 @@ window.__require = function e(t, n, r) {
       value: true
     });
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, "script", "facebook-jssdk");
     var LoginScreen = function(_super) {
       __extends(LoginScreen, _super);
       function LoginScreen() {
         var _this = null !== _super && _super.apply(this, arguments) || this;
         _this.nodeLayoutLogin = null;
         _this.nodeLayoutSignIn = null;
-        _this.FB = null;
         return _this;
       }
       LoginScreen.prototype.start = function() {
@@ -229,6 +220,14 @@ window.__require = function e(t, n, r) {
       return LoginScreen;
     }(cc.Component);
     exports.default = LoginScreen;
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, "script", "facebook-jssdk");
     cc._RF.pop();
   }, {} ]
 }, {}, [ "FBSDK", "LoginFacebook", "LoginScreen" ]);
