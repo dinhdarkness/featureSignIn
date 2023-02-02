@@ -184,6 +184,15 @@ window.__require = function e(t, n, r) {
             version: "v15.0"
           });
         };
+        FB.AppEvents.logPageView();
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        })(document, "script", "facebook-jssdk");
       };
       LoginScreen.prototype.onButtonSignInClick = function() {
         this.nodeLayoutLogin.active = false;
@@ -220,14 +229,6 @@ window.__require = function e(t, n, r) {
       return LoginScreen;
     }(cc.Component);
     exports.default = LoginScreen;
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    })(document, "script", "facebook-jssdk");
     cc._RF.pop();
   }, {} ]
 }, {}, [ "FBSDK", "LoginFacebook", "LoginScreen" ]);
