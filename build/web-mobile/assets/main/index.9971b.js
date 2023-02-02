@@ -165,32 +165,23 @@ window.__require = function e(t, n, r) {
       value: true
     });
     var _a = cc._decorator, ccclass = _a.ccclass, property = _a.property;
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId: "577254864321632",
-        cookie: true,
-        xfbml: true,
-        version: "v15.0"
-      });
-    }(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, "script", "facebook-jssdk"));
     var LoginScreen = function(_super) {
       __extends(LoginScreen, _super);
       function LoginScreen() {
         var _this = null !== _super && _super.apply(this, arguments) || this;
         _this.nodeLayoutLogin = null;
         _this.nodeLayoutSignIn = null;
+        _this.labelTokenValue = null;
+        _this.labelIDValue = null;
+        _this.nodeToken = null;
+        _this.nodeID = null;
+        _this.nodeLayoutUserInfo = null;
         return _this;
       }
       LoginScreen.prototype.start = function() {
         this.nodeLayoutLogin.active = true;
         this.nodeLayoutSignIn.active = false;
+        this.nodeLayoutUserInfo.active = false;
       };
       LoginScreen.prototype.onButtonSignInClick = function() {
         this.nodeLayoutLogin.active = false;
@@ -198,18 +189,23 @@ window.__require = function e(t, n, r) {
       };
       LoginScreen.prototype.onButtonSignWithFBClick = function() {
         var _this = this;
-        FB.getLoginStatus(function(response) {
+        cc.sys.isBrowser && FB.getLoginStatus(function(response) {
           _this.statusChangeCallback(response);
         });
       };
       LoginScreen.prototype.statusChangeCallback = function(response) {
         console.log("statusChangeCallback");
         console.log(response);
-        "connected" === response.status ? this.testAPI() : FB.login(function(response) {
+        if ("connected" === response.status) {
+          this._userInfo.token = response.authResponse.accessToken;
+          this.testAPI();
+        } else FB.login(function(response) {
           if (response.authResponse) {
             console.log("Welcome!  Fetching your information.... ");
             FB.api("/me", function(response) {
               console.log("Good to see you, " + response.name + ".");
+              this._userInfo.id = response.id;
+              this._userInfo.name = response.name;
             });
           } else console.log("User cancelled login or did not fully authorize.");
         });
@@ -218,10 +214,30 @@ window.__require = function e(t, n, r) {
         console.log("Welcome!  Fetching your information.... ");
         FB.api("/me", function(response) {
           console.log("Successful login for: " + response);
+          this._userInfo.id = response.id;
+          this._userInfo.name = response.name;
         });
+      };
+      LoginScreen.prototype.loginDone = function() {
+        this.nodeLayoutSignIn.active = false;
+        this.nodeLayoutLogin.active = false;
+        this.nodeLayoutUserInfo.active = true;
+      };
+      LoginScreen.prototype.updateUserInfo = function() {
+        this.nodeToken.active = true;
+        this.labelTokenValue.node.active = true;
+        this.labelTokenValue.string = this._userInfo.token;
+        this.nodeID.active = true;
+        this.labelIDValue.node.active = true;
+        this.labelIDValue.string = this._userInfo.id;
       };
       __decorate([ property(cc.Node) ], LoginScreen.prototype, "nodeLayoutLogin", void 0);
       __decorate([ property(cc.Node) ], LoginScreen.prototype, "nodeLayoutSignIn", void 0);
+      __decorate([ property(cc.Label) ], LoginScreen.prototype, "labelTokenValue", void 0);
+      __decorate([ property(cc.Label) ], LoginScreen.prototype, "labelIDValue", void 0);
+      __decorate([ property(cc.Node) ], LoginScreen.prototype, "nodeToken", void 0);
+      __decorate([ property(cc.Node) ], LoginScreen.prototype, "nodeID", void 0);
+      __decorate([ property(cc.Node) ], LoginScreen.prototype, "nodeLayoutUserInfo", void 0);
       LoginScreen = __decorate([ ccclass ], LoginScreen);
       return LoginScreen;
     }(cc.Component);

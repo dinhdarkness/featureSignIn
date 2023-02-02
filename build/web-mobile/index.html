@@ -48,9 +48,9 @@
     </div>
   </div>
 
-<script src="src/settings.6ecff.js" charset="utf-8"></script>
+<script src="src/settings.ae3d3.js" charset="utf-8"></script>
 
-<script src="main.df9a1.js" charset="utf-8"></script>
+<script src="main.51ae1.js" charset="utf-8"></script>
 
 <script type="text/javascript">
 (function () {
@@ -85,6 +85,23 @@
       }
     });
 })();
+
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '577254864321632',
+      cookie     : true,                     // Enable cookies to allow the server to access the session.
+      xfbml      : true,                     // Parse social plugins on this webpage.
+      version    : 'v15.0'           // Use this Graph API version for this call.
+    });
+}
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+  
 </script>
 </body>
 </html>
